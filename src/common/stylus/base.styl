@@ -1,11 +1,17 @@
+body, html
+	line-height:1
+	font-family:'PingFang SC', 'STHeitiSC-Light', 'Helvetica-Light', arial, sans-serif
+	font-weight:200
+
+// 使用媒体查询dpr,如果是1.5，Y轴方向压缩0.7倍，1.5*0.7 = 1px
 @media (-webkit-min-device-pixel-ratio: 1.5),(min-device-pixel-ratio: 1.5)
-  .border-1px
-    &::after
-      -webkit-transform: scaleY(0.7)
-      transform: scaleY(0.7)
+	.border-1px
+		&::after
+			-webkit-transform: scaleY(0.7)
+			transform: scaleY(0.7)
 
 @media (-webkit-min-device-pixel-ratio: 2),(min-device-pixel-ratio: 2)
-  .border-1px
-    &::after
-      -webkit-transform: scaleY(0.5)
-      transform: scaleY(0.5)
+	.border-1px
+		&::after
+			-webkit-transform: scaleY(0.5)
+			transform: scaleY(0.5)

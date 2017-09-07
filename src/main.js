@@ -11,6 +11,7 @@ import ratings from '@/components/ratings/ratings';
 Vue.config.productionTip = false;
 
 Vue.use(VueRouter);
+Vue.use(VueResource);
 
 // 下面这行注释是eslint的局部语法，表示new一个匿名对象
 /* eslint-disable no-new */

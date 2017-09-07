@@ -1,6 +1,7 @@
 <template>
 	<div>
-		<v-header></v-header>
+		<!-- :seller就是v-bind:seller,向子组件传数据 -->
+		<v-header :seller="seller"></v-header>
 	    <div class="tab border-1px">
 	    	<div class="tab-item">
 	    		<router-link to="/goods">商品</router-link>
@@ -16,13 +17,32 @@
 	</div>
 </template>
 
-<script>
+// 使用es6语法报错，必须加type
+<script type="text/ecmascript-6">
 	import header from './components/header/header.vue';
 
+	// 定义返回状态玛的语义化变量
+	const REQ_OK = 0, REQ_ERR = 1;
+
 	export default {
-	  components: {
-	    'v-header': header
-	  }
+		// 相当于在data对象里增加一个属性
+		data() {
+			return {
+				seller:{}
+			};
+		},
+		created() {
+			this.$http.get('/api/seller').then((response) => {
+				var data = response.body;
+				if(data.errno === REQ_OK){
+					this.seller = data.data;
+					console.log(this.seller);
+				}
+			});
+		},
+	    components: {
+	      'v-header': header
+	    }
 	};
 </script>
 
