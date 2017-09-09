@@ -228,13 +228,9 @@
 			overflow :auto
 			backdrop-filter:blur(10px)
 			background-color:rgba(7,17,27,0.8)
-			&.fade-enter-active,
+			&.fade-enter-active, &.fade-leave-active 
 				transition: opacity .5s
-			&.fade-leave-active
-				transition: opacity .5s
-			&.fade-enter
-				opacity: 0
-			&.fade-leave-to
+			&.fade-enter, .fade-leave-to 
 				opacity: 0
 			.detail-wrapper
 				min-height 100%
