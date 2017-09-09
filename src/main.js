@@ -8,6 +8,9 @@ import seller from '@/components/seller/seller';
 import goods from '@/components/goods/goods';
 import ratings from '@/components/ratings/ratings';
 
+// stylus sucks，can't import icon.styl in index.styl
+require('./common/icon.css');
+
 Vue.config.productionTip = false;
 
 Vue.use(VueRouter);
