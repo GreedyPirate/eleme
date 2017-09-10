@@ -19,7 +19,7 @@
 
 // 使用es6语法报错，必须加type
 <script type="text/ecmascript-6">
-	import header from './components/header/header.vue';
+	import header from './components/header/header';
 
 	// 定义返回状态玛的语义化变量
 	const REQ_OK = 0, REQ_ERR = 1;

@@ -226,7 +226,7 @@
 			width:100%
 			height:100%
 			overflow :auto
-			backdrop-filter:blur(10px)
+			backdrop-filter:blur(10px) // ios下可以实现模糊背景
 			background-color:rgba(7,17,27,0.8)
 			&.fade-enter-active, &.fade-leave-active 
 				transition: opacity .5s
