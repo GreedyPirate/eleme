@@ -110,7 +110,6 @@
 			overflow auto
 			font-size 0
 			.title
-				width 100%
 				height 26px
 				padding-left 13px
 				line-height 26px
@@ -155,6 +154,4 @@
 					.old
 						text-decoration: line-through
 						font-size 10px
-					
-						
 </style>
