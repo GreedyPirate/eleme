@@ -22,7 +22,7 @@ Vue.use(VueResource);
 const routes = [
 	{
 	  path: '/', // 默认到goods
-	  component: goods
+	  redirect: '/goods'
 	}, {
 	  path: '/goods',
 	  component: goods

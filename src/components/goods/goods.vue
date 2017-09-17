@@ -1,6 +1,6 @@
 <template>
 	<div class="goods">
-		<div class="menu-wrapper">
+		<div class="menu-wrapper" ref="menuWrapper">
 			<ul>
 				<li v-for="item in goods" class="cate-item">
 					<span class="cate-text">
@@ -9,9 +9,9 @@
 				</li>
 			</ul>
 		</div>
-		<div class="foods-wrapper">
+		<div class="foods-wrapper" ref="foodWrapper">
 			<ul>
-				<li v-for="item in goods">
+				<li v-for="item in goods" class="food-list-hook">
 					<h1 class="title">{{item.name}}</h1>
 					<ul>
 						<li class="food-item border-1px" v-for="food in item.foods">
@@ -21,12 +21,10 @@
 							<div class="detail">
 								<h2 class="name">{{food.name}}</h2><span class="desc">{{food.description}}</span>
 								<div class="extra">
-									<span class="count">月售{{food.sellCount}}份</span>
-									<span class="praise">好评率{{food.rating}}%</span>
+									<span class="count">月售{{food.sellCount}}份</span><span class="praise">好评率{{food.rating}}%</span>
 								</div>
 								<div class="price">
-									<span class="now">￥{{food.price}}</span>
-									<span class="old" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
+									<span class="now">￥{{food.price}}</span><span class="old" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
 								</div>
 							</div>
 						</li>
@@ -37,6 +35,8 @@
 	</div>
 </template>
 <script type="text/ecmascript-6">
+	import BScoll from "better-scroll"
+
 	const REQ_OK = 0, REQ_ERR = 1;
 
     export default {
@@ -47,7 +47,8 @@
 		},
 		data() {
 			return {
-				goods:[]
+				goods:[],
+				listHeights:[]
 			};
 		},
 		created() {
@@ -57,8 +58,25 @@
 				if(data.errno === REQ_OK){
 					this.goods = data.data;
 					console.log(this.goods);
+					this.$nextTick(() => {
+						this._initScoll();
+					})
 				}
 			});
+		},
+		methods:{
+			// 初始化滚动条，必须放到nextTick里，vue是异步刷新dom，此时没有获取到宽高
+			_initScoll () {
+				let menuScoll = new BScoll(this.$refs.menuWrapper);
+				let foodScoll = new BScoll(this.$refs.foodWrapper);
+			},
+			_calcHeight() {
+				let foodList = this.$refs.foodWrapper.getElementByClassName("food-list-hook");
+				let height = 0;
+				this.listHeights.push(height);
+				for(let i = 0, len = foodList.length; i<len; i++){
+				}
+			}
 		}
     }
 </script>
@@ -138,7 +156,7 @@
 						color rgb(7,17,27)
 					.desc,.extra
 						font-size 10px
-						line-height 10px
+						line-height 12px
 						color rgb(147,153,159)
 					.extra
 						margin-top 8px
