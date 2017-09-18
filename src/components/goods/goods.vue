@@ -2,7 +2,7 @@
 	<div class="goods">
 		<div class="menu-wrapper" ref="menuWrapper">
 			<ul>
-				<li v-for="item in goods" class="cate-item">
+				<li v-for="(item,index) in goods" class="cate-item" :class="{current:currentIndex === index}">
 					<span class="cate-text">
 						<span v-show="item.type>0" class="icon" :class="classMap[item.type]"></span>{{item.name}}
 					</span>
@@ -35,7 +35,7 @@
 	</div>
 </template>
 <script type="text/ecmascript-6">
-	import BScoll from "better-scroll"
+	import BScroll from "better-scroll"
 
 	const REQ_OK = 0, REQ_ERR = 1;
 
@@ -48,8 +48,21 @@
 		data() {
 			return {
 				goods:[],
-				listHeights:[]
+				listHeights:[],
+				scrollY:0
 			};
+		},
+		computed:{
+			currentIndex() {
+				for(let i=0, len=this.listHeights.length; i<len; i++){
+					let floor = this.listHeights[i];
+					let ceiling = this.listHeights[i+1];
+					if(this.scrollY >= floor && this.scrollY < ceiling){
+						return i;
+					}
+				}
+				return 0;
+			}
 		},
 		created() {
     		this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee'];
@@ -60,6 +73,7 @@
 					console.log(this.goods);
 					this.$nextTick(() => {
 						this._initScoll();
+						this._calcHeight();
 					})
 				}
 			});
@@ -67,14 +81,27 @@
 		methods:{
 			// 初始化滚动条，必须放到nextTick里，vue是异步刷新dom，此时没有获取到宽高
 			_initScoll () {
-				let menuScoll = new BScoll(this.$refs.menuWrapper);
-				let foodScoll = new BScoll(this.$refs.foodWrapper);
+				this.menuScroll = new BScroll(this.$refs.menuWrapper);
+
+				this.foodScroll = new BScroll(this.$refs.foodWrapper,{
+					// 实时派发 scroll 事件
+					probeType: 3
+				});
+				this.foodScroll.on('scroll', (pos) => {
+		        	this.scrollY = Math.abs(Math.round(pos.y));
+		        });
+
 			},
+			// 将每一个分类的高度保存到数组中
 			_calcHeight() {
-				let foodList = this.$refs.foodWrapper.getElementByClassName("food-list-hook");
+				let foodList = this.$refs.foodWrapper.getElementsByClassName("food-list-hook");
 				let height = 0;
 				this.listHeights.push(height);
 				for(let i = 0, len = foodList.length; i<len; i++){
+					let item = foodList[i]
+					height += item.clientHeight;
+					// 获取的是一个递增的height数组
+					this.listHeights.push(height);
 				}
 			}
 		}
@@ -99,6 +126,14 @@
 				width 56px
 				line-height 14px
 				padding 0 12px
+				&.current
+					position: relative
+					z-index: 10
+					margin-top: -1px
+					background: #fff
+					font-weight: 700
+					.cate-text
+						border-none()
 				.icon
 					display:inline-block
 					width:12px
