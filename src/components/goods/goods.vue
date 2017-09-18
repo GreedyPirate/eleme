@@ -2,7 +2,7 @@
 	<div class="goods">
 		<div class="menu-wrapper" ref="menuWrapper">
 			<ul>
-				<li v-for="(item,index) in goods" class="cate-item" :class="{current:currentIndex === index}">
+				<li v-for="(item,index) in goods" class="cate-item" :class="{current:currentIndex === index}" @click="selectMenu(index)">
 					<span class="cate-text">
 						<span v-show="item.type>0" class="icon" :class="classMap[item.type]"></span>{{item.name}}
 					</span>
@@ -79,6 +79,19 @@
 			});
 		},
 		methods:{
+			// 点击左侧菜单栏
+			selectMenu(index) {
+				/*
+					可以阻止默认的点击事件
+					if (!event._constructed) {
+			          return;
+			        }
+				*/
+				let foodList = this.$refs.foodWrapper.getElementsByClassName("food-list-hook");
+				let foodElement = foodList[index];
+				this.foodScroll.scrollToElement(foodElement,300);
+				console.log('xx');
+			},
 			// 初始化滚动条，必须放到nextTick里，vue是异步刷新dom，此时没有获取到宽高
 			_initScoll () {
 				this.menuScroll = new BScroll(this.$refs.menuWrapper);
