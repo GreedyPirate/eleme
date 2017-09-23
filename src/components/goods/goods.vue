@@ -32,18 +32,24 @@
 				</li>
 			</ul>
 		</div>
+		<cart :deliveryPrice="seller.deliveryPrice" :minPrice="seller.minPrice"></cart>
 	</div>
 </template>
 <script type="text/ecmascript-6">
 	import BScroll from "better-scroll"
+	import cart from "@/components/cart/cart"
 
 	const REQ_OK = 0, REQ_ERR = 1;
 
     export default {
 		props:{
+			// 从App.vue的router-view里传进来的
 			seller:{
 				type:Object
 			}
+		},
+		components:{
+			cart
 		},
 		data() {
 			return {
@@ -204,12 +210,12 @@
 						color rgb(7,17,27)
 					.desc,.extra
 						font-size 10px
-						line-height 12px
+						line-height 10px
 						color rgb(147,153,159)
 					.extra
 						margin-top 8px
 						.count
-							margin-right 6px
+							margin-right 12px
 				.price
 					font-weight 700
 					line-height 24px
