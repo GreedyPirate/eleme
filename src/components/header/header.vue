@@ -23,7 +23,7 @@
 				<i class="icon-keyboard_arrow_right"></i>
 			</div>
 		</div>
-		<div class="bulletin-wrapper">
+		<div class="bulletin-wrapper" @click="showDetail">
 			<span class="bulletin-icon"></span><span class="bulletin-text">{{seller.bulletin}}</span>
 			<span class="icon-keyboard_arrow_right"></span>
 		</div>
