@@ -27,17 +27,21 @@
 									<span class="now">￥{{food.price}}</span><span class="old" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
 								</div>
 							</div>
+							<div class="control">
+								<controlpair :food="food"></controlpair>
+							</div>
 						</li>
 					</ul>
 				</li>
 			</ul>
 		</div>
-		<cart :deliveryPrice="seller.deliveryPrice" :minPrice="seller.minPrice"></cart>
+		<cart :deliveryPrice="seller.deliveryPrice" :minPrice="seller.minPrice" :selectedFoods="selectedFoods"></cart>
 	</div>
 </template>
 <script type="text/ecmascript-6">
 	import BScroll from "better-scroll"
 	import cart from "@/components/cart/cart"
+	import controlpair from '@/components/controlpair/controlpair'
 
 	const REQ_OK = 0, REQ_ERR = 1;
 
@@ -49,7 +53,8 @@
 			}
 		},
 		components:{
-			cart
+			cart,
+			controlpair
 		},
 		data() {
 			return {
@@ -68,6 +73,22 @@
 					}
 				}
 				return 0;
+			},
+			selectedFoods() {
+				let foodArr = [];
+				// 怎么去获取被选中的foods，food改变引起goods集合改变
+				this.goods.forEach((good) => {
+					// 这里的数据结构有点复杂，认真看如何循环
+					good.foods.forEach((food) => {
+						if(food.count){
+							foodArr.push({
+								price:food.price,
+								count:food.count // count属性在controlpair里添加的
+							});
+						}
+					})
+				});
+				return foodArr;
 			}
 		},
 		created() {
@@ -87,12 +108,10 @@
 		methods:{
 			// 点击左侧菜单栏
 			selectMenu(index) {
-				/*
-					可以阻止默认的点击事件
-					if (!event._constructed) {
-			          return;
-			        }
-				*/
+				// 可以阻止默认的点击事件
+				if (!event._constructed) {
+		          return;
+		        }
 				let foodList = this.$refs.foodWrapper.getElementsByClassName("food-list-hook");
 				let foodElement = foodList[index];
 				this.foodScroll.scrollToElement(foodElement,300);
@@ -100,10 +119,13 @@
 			},
 			// 初始化滚动条，必须放到nextTick里，vue是异步刷新dom，此时没有获取到宽高
 			_initScoll () {
-				this.menuScroll = new BScroll(this.$refs.menuWrapper);
+				this.menuScroll = new BScroll(this.$refs.menuWrapper,{
+					click: true
+				});
 
 				this.foodScroll = new BScroll(this.$refs.foodWrapper,{
-					// 实时派发 scroll 事件
+					// 实时派发 scroll 事件.
+					click: true,
 					probeType: 3
 				});
 				this.foodScroll.on('scroll', (pos) => {
@@ -216,6 +238,10 @@
 						margin-top 8px
 						.count
 							margin-right 12px
+				.control
+					postion absolute
+					right 0
+					bottom 12px
 				.price
 					font-weight 700
 					line-height 24px
