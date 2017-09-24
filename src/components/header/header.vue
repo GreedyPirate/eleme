@@ -174,7 +174,7 @@
 				text-align: center
 				font-size:20px
 				transform: scale(0.5)
-    			transform-origin: 0% 0%				
+				transform-origin: 0% 0%
 				.count
 					font-size:10px
 					vertical-align: top
@@ -214,7 +214,7 @@
 			position:absolute
 			top:0
 			left:0
-			z-index:-1 
+			z-index:-1
 			width:100% // 撑满整个header
 			height:100%
 			filter:blur(10px) // 模糊效果
@@ -228,9 +228,9 @@
 			overflow :auto
 			backdrop-filter:blur(10px) // ios下可以实现模糊背景
 			background-color:rgba(7,17,27,0.8)
-			&.fade-enter-active, &.fade-leave-active 
+			&.fade-enter-active, &.fade-leave-active
 				transition: opacity .5s
-			&.fade-enter, .fade-leave-to 
+			&.fade-enter, .fade-leave-to
 				opacity: 0
 			.detail-wrapper
 				min-height 100%
@@ -307,5 +307,4 @@
 				margin -64px auto 0 auto
 				clear:both
 				font-size 32px
-												
 </style>
