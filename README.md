@@ -19,3 +19,9 @@ npm run build --report
 ```
 
 For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+
+踩坑笔记：
+
+1.npm run build出来的文件放到服务器报错
+	找到webpack.prod.conf.js文件，在output里添加publicPath: './'
